@@ -7,7 +7,7 @@
     "start": "electron .",
     "macbuild": "electron-builder -m",
     "linbuild": "electron-builder -l",
-    "winbuild": "electron-builder -w",
+    "winbuild": "electron-builder --win --x64",
     "contributors:add": "all-contributors add",
     "contributors:generate": "all-contributors generate"
   },
@@ -24,7 +24,10 @@
     "appId": "DiscordNetflixRevived",
     "productName": "Discord-Netflix-Revived",
     "win": {
-      "target": "nsis-web",
+      "target": [
+        "nsis",
+        "zip"
+      ],
       "icon": "./assets/icon.png"
     },
     "linux": {

@@ -1,18 +1,18 @@
-# Discord-Netflix
+# Discord-Netflix-Revived
 
 Having your video player freeze into a blank void on launch while your Discord status stubbornly claims you are still "In the Catalogs" when you are forty minutes into a thriller is an insult to your intelligence. If upstream abandonware leaves you staring at broken DOM scrapers and permission crashes, why settle for a broken player? Respect your ecosystem.
 
-Discord-Netflix is an enhanced, battle-tested desktop Netflix wrapper with intelligent Discord Rich Presence, robust Widevine DRM media playback, and zero DOM-destroying glitches. Either way, you're welcome.
+Discord-Netflix-Revived is an enhanced, battle-tested desktop Netflix wrapper with intelligent Discord Rich Presence, robust Widevine DRM media playback, and zero DOM-destroying glitches. Either way, you're welcome.
 
 <p align="center">
-  <img src="assets/icon.png" width="128" height="128" alt="Discord-Netflix Logo" />
+  <img src="assets/icon.png" width="128" height="128" alt="Discord-Netflix-Revived Logo" />
 </p>
 
 ---
 
 ## Highlights
 
-- **Resilient Discord Rich Presence**: Upstream relied on brittle CSS selectors like `[data-uia="video-title"]` that Netflix unmounts after two seconds of idle mouse movement, freezing your status in "In the Catalogs". This fork hooks directly into the official Netflix Member API (`/nq/website/memberapi/release/metadata`), internal falcorCache, and active player sessions to resolve accurate series titles, seasons, and episodes even in fullscreen.
+- **Resilient Discord Rich Presence**: Upstream relied on brittle CSS selectors like `[data-uia="video-title"]` that Netflix unmounts after two seconds of idle mouse movement, freezing your status in "In the Catalogs". This revived edition hooks directly into the official Netflix Member API (`/nq/website/memberapi/release/metadata`), internal falcorCache, and active player sessions to resolve accurate series titles, seasons, and episodes even in fullscreen.
 - **Instant Navigation Synchronization**: Native Single-Page Application (SPA) navigation awareness listening to in-page route transitions. As soon as you click Play from the catalog, Discord updates to your active stream within a second instead of lagging behind on a stale timer.
 - **Fixed Windows Sandbox Crashes**: Eliminates the notorious Chromium `Sandbox cannot access executable: Access is denied (0x5)` error by configuring proper cross-platform sandbox bypass flags on Windows 10 and 11.
 - **Anti-Bot & Consent Shield**: Neutralizes `X-OneTrust-IsBot` header rejections by sanitizing Electron and wrapper signatures from the User-Agent header, preventing Netflix and OneTrust from blocking page initialization.
@@ -25,7 +25,7 @@ Discord-Netflix is an enhanced, battle-tested desktop Netflix wrapper with intel
 ## Architecture
 
 ```
-Discord-Netflix/
+Discord-Netflix-Revived/
 ├── assets/                           Icons and branding assets
 ├── src/
 │   ├── Electron/
@@ -49,12 +49,12 @@ Discord-Netflix/
 ## Installation & Distribution
 
 ### 1. Pre-built Executable
-Download the latest installer or portable archive from the [Releases](https://github.com/djell1l/Discord-Netflix/releases) page. Run the setup, log in once to your Netflix account, and launch Discord.
+Download the latest installer or portable archive from the [Releases](https://github.com/djell1l/Discord-Netflix-Revived/releases) page. Run the setup, log in once to your Netflix account, and launch Discord.
 
 ### 2. GPU Troubleshooting
 If your graphics drivers conflict with hardware-accelerated DRM surfaces, you can run the executable directly with:
 ```powershell
-Discord-Netflix.exe --disable-gpu
+Discord-Netflix-Revived.exe --disable-gpu
 ```
 
 ---
@@ -69,8 +69,8 @@ Discord-Netflix.exe --disable-gpu
 ### Build & Run
 ```powershell
 # Clone the repository
-git clone https://github.com/djell1l/Discord-Netflix.git
-cd Discord-Netflix
+git clone https://github.com/djell1l/Discord-Netflix-Revived.git
+cd Discord-Netflix-Revived
 
 # Install dependencies
 npm install
@@ -115,4 +115,4 @@ Under this strong copyleft license:
 
 ## Disclaimer
 
-Discord-Netflix is an unofficial third-party open-source utility and is not affiliated with, endorsed by, or sponsored by Netflix, Inc. or Discord Inc. All trademarks belong to their respective owners.
+Discord-Netflix-Revived is an unofficial third-party open-source utility and is not affiliated with, endorsed by, or sponsored by Netflix, Inc. or Discord Inc. All trademarks belong to their respective owners.

@@ -71,8 +71,8 @@ module.exports = class BrowserWindow extends ElectronBrowserWindow {
 
     try {
       const res = await fetch(
-        'https://api.github.com/repos/djell1l/Discord-Netflix/releases/latest',
-        { headers: { 'User-Agent': 'Discord-Netflix' } }
+        'https://api.github.com/repos/djell1l/Discord-Netflix-Revived/releases/latest',
+        { headers: { 'User-Agent': 'Discord-Netflix-Revived' } }
       );
 
       if (!res.ok) return;

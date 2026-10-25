@@ -1,7 +1,7 @@
 {
-  "name": "Discord-Netflix",
+  "name": "Discord-Netflix-Revived",
   "version": "1.3.1",
-  "description": "Enhanced desktop Netflix client with Smart Discord Rich Presence & Widevine playback",
+  "description": "Revived desktop Netflix client with resilient Discord Rich Presence, sandbox fixes, and Widevine playback",
   "main": "src/index.js",
   "scripts": {
     "start": "electron .",
@@ -13,15 +13,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/djell1l/Discord-Netflix.git"
+    "url": "https://github.com/djell1l/Discord-Netflix-Revived.git"
   },
   "author": "djell1l",
   "license": "GPL-3.0",
   "bugs": {
-    "url": "https://github.com/djell1l/Discord-Netflix/issues"
+    "url": "https://github.com/djell1l/Discord-Netflix-Revived/issues"
   },
   "build": {
-    "appId": "DiscordNetflix",
+    "appId": "DiscordNetflixRevived",
+    "productName": "Discord-Netflix-Revived",
     "win": {
       "target": "nsis-web",
       "icon": "./assets/icon.png"
@@ -41,7 +42,7 @@
       "mirror": "https://github.com/castlabs/electron-releases/releases/download/v"
     }
   },
-  "homepage": "https://github.com/djell1l/Discord-Netflix#readme",
+  "homepage": "https://github.com/djell1l/Discord-Netflix-Revived#readme",
   "dependencies": {
     "@xhayper/discord-rpc": "^1.3.0",
     "axios": "^1.15.2",

@@ -45,8 +45,19 @@ module.exports = class BrowserWindow extends ElectronBrowserWindow {
     });
 
     this.rpc = rpc;
+
+    // Sanitize user agent to mimic genuine Chrome and bypass bot-detection / header rejection
+    const defaultUA = this.webContents.getUserAgent();
+    const cleanUA = defaultUA.replace(/Discord-Netflix\/[^\s]+\s*/ig, '').replace(/Electron\/[^\s]+\s*/ig, '');
+    this.webContents.setUserAgent(cleanUA);
+
     this.browsingStart = null;
     this._checkedForUpdates = false;
+
+    // Instant update when user clicks a movie/series (SPA navigation)
+    this.webContents.on('did-navigate-in-page', () => {
+      setTimeout(() => this.checkNetflix(), 1200);
+    });
 
     // Run update check AFTER first load
     this.webContents.once('did-finish-load', () => {
@@ -54,13 +65,13 @@ module.exports = class BrowserWindow extends ElectronBrowserWindow {
     });
   }
 
-    async checkForUpdates() {
+  async checkForUpdates() {
     if (this._checkedForUpdates) return;
     this._checkedForUpdates = true;
 
     try {
       const res = await fetch(
-        'https://api.github.com/repos/Discord-Netflix/Discord-Netflix/releases/latest',
+        'https://api.github.com/repos/djell1l/Discord-Netflix/releases/latest',
         { headers: { 'User-Agent': 'Discord-Netflix' } }
       );
 
@@ -126,7 +137,7 @@ module.exports = class BrowserWindow extends ElectronBrowserWindow {
         if (!isPaused) startTimestamp = new Date(this.browsingStart);
       } 
       // Watching a video
-      else if (infos.duration && infos.currentTime) {
+      else if (infos.name === 'Watching' || (typeof infos.duration === 'number' && typeof infos.currentTime === 'number')) {
         this.browsingStart = null;
 
         const currentTimeSec = normalizeTime(infos.currentTime);
@@ -136,7 +147,9 @@ module.exports = class BrowserWindow extends ElectronBrowserWindow {
 
         if (!isPaused) {
           startTimestamp = new Date(now - elapsedMs);
-          endTimestamp = new Date(startTimestamp.getTime() + durationSec * 1000);
+          if (durationSec > 0) {
+            endTimestamp = new Date(startTimestamp.getTime() + durationSec * 1000);
+          }
         }
       } 
       // Neither browsing nor watching

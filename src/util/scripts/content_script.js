@@ -28,7 +28,13 @@
         return true;
     };
 
-    const run = () => setMaxBitrate() || setTimeout(run, 100);
+    let bitrateRetries = 0;
+    const run = () => {
+        if (setMaxBitrate()) return;
+        bitrateRetries++;
+        if (bitrateRetries < 20) setTimeout(run, 500);
+    };
+
     const WATCH_REGEXP = /netflix\.com\/watch\/.*/;
     let oldLocation;
 
@@ -36,9 +42,12 @@
         const loc = location.toString();
         if (loc !== oldLocation) {
             oldLocation = loc;
-            WATCH_REGEXP.test(loc) && run();
+            if (WATCH_REGEXP.test(loc)) {
+                bitrateRetries = 0;
+                run();
+            }
         }
-    }, 500);
+    }, 1000);
 
     console.log("MAX BITRATE ENABLED | DISCORD-NETFLIX");
 })();
@@ -68,7 +77,6 @@
     };
 
     const createPiPUnit = (fullscreenWrapper) => {
-        // --- button wrapper (medium)
         const wrapper = fullscreenWrapper.cloneNode(false);
         wrapper.innerHTML = "";
 
@@ -82,7 +90,6 @@
             </div>
         `;
 
-        // Netflix-like hover/focus behavior
         const activate = () => btn.classList.add("active");
         const deactivate = () => btn.classList.remove("active");
 
@@ -94,7 +101,6 @@
         btn.addEventListener("click", togglePiP);
         wrapper.appendChild(btn);
 
-        // --- spacing div (THIS FIXES ALIGNMENT)
         const spacer = document.createElement("div");
         spacer.className = "default-ltr-iqcdef-cache-1npqywr";
         spacer.style.minWidth = "3rem";
@@ -248,13 +254,16 @@
                 console.log('[TM] Household block bypassed.');
             }
         } catch (_) {
-            // intentionally silent (stealth)
+            // intentionally silent
         }
     }
 
     function cleanUI() {
+        // Safe: ONLY clean during actual playback on watch pages, never delete browsing/login UI!
+        if (!location.pathname.includes('/watch/')) return;
+
         const blockers = document.querySelectorAll(
-            '.nf-modal, .screen-overlay, [data-uia*="interstitial"], .active-overlay, .error-page-container'
+            '[data-uia*="interstitial-household"], [data-uia*="household-error"]'
         );
         blockers.forEach(el => el.remove());
 
@@ -271,14 +280,13 @@
         }
 
         observer = new MutationObserver(() => {
+            if (!location.pathname.includes('/watch/')) return;
             const modal = document.querySelector(
-                '.nf-modal, [data-uia*="interstitial"]'
+                '[data-uia*="interstitial-household"], [data-uia*="household-error"]'
             );
 
             if (modal && !hasForced) {
                 cleanUI();
-
-                // delay slightly so Netflix finishes its own handling
                 setTimeout(tryForcePlay, 500);
             }
         });
